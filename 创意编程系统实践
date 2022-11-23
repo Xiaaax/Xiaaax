@@ -1,0 +1,56 @@
+PImage img;
+PShape shp;
+float b=100;
+float a=50;
+float k=50;
+
+void setup(){
+  blendMode(DIFFERENCE);
+  size(900,900);
+}
+void draw(){
+  
+  for (int i=0; i<200; i+=15){
+    
+    ellipse(400+i,200,170,20+100*sin(radians(a+i)));
+    }
+    
+  background(255);
+  noStroke();
+  fill(255);
+  for(int i=0; i<200; i+=15){
+    ellipse(400+i,200,170,20+100*sin(radians(a+i)));
+    }
+    
+  pushMatrix();
+  for(int i=0; i<200; i+=15){
+    ellipse(400+i,400,170,20+100*sin(radians(a+i)));
+    }
+    
+  popMatrix();
+  
+  //ellipse(330,200,k,k);
+  //ellipse(330,255,b,b);
+  //ellipse(330,310,b,b);
+  //ellipse(330,365,b,b);
+  //ellipse(330,420,b,b);
+  //ellipse(330,475,b,b);
+  //ellipse(330,530,b,b);
+  //ellipse(330,585,k,k);
+  
+ pushMatrix();
+  for(int i=0; i<200; i+=11){
+    ellipse(307,303+i,0+80*sin(radians(a+i)),227+23*sin(radians(a+i)));
+    }
+  
+  popMatrix();
+  
+  pushMatrix();
+  for(int i=0; i<200; i+=15){
+    ellipse(400+i,601,170,20+100*sin(radians(a+i)));
+    }
+    
+  popMatrix();
+  
+  a+=1;
+}
