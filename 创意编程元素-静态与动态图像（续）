@@ -1,0 +1,45 @@
+PImage img;
+
+int xstep = 10;
+int ystep = 10;
+int maxSize = 20;  
+
+void setup(){
+  size(432,540);
+  noStroke();
+  
+  img = loadImage("WechatIMG1283.jpeg");
+  img.resize(0,height);
+}
+
+void draw(){
+  background(255);
+  
+  xstep = int(map(mouseX,0,img.width,2,16));
+  ystep = int(map(mouseY,0,img.height,2,16));
+  
+  //image(img,0,0);
+  for(int i=0; i<img.width; i +=xstep){
+    for(int j=0; j<img.height; j+=ystep){
+      color col=img.get(i,j);
+      float bri=brightness(col);
+      float size=map(bri,0,255,maxSize,0);
+      
+      fill(col);
+      circle(i,j,size);
+    }
+  }
+  
+  textSize(40);
+  fill(0);
+  text("xstep:" +xstep,850,100);
+  text("ystep:" +ystep,850,200);
+  text("max size:",850,400);
+  text(maxSize,850,400);
+  //text("maxBri:" ,850,550);
+  //text(maxBri,850,600);
+}
+
+void mouseWheel(MouseEvent event){
+    maxSize -=event.getCount();
+}
