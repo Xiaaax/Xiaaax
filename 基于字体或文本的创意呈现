@@ -9,7 +9,7 @@ float[][] laplacian = {{1, 1, 1}, {1, -8, 1}, {1, 1, 1}};
 
 boolean savePDF;
 
-String str = "KUN";
+String str = "C";
 
 int textSize = 600;
 float scaleSize = 600/textSize;
