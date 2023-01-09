@@ -1,56 +1,92 @@
-PImage img;
-PShape shp;
-float b=100;
-float a=50;
-float k=50;
-
 void setup(){
-  blendMode(DIFFERENCE);
-  size(900,900);
-}
-void draw(){
-  
-  for (int i=0; i<200; i+=15){
-    
-    ellipse(400+i,200,170,20+100*sin(radians(a+i)));
-    }
-    
+  size(800,800);
   background(255);
-  noStroke();
-  fill(255);
-  for(int i=0; i<200; i+=15){
-    ellipse(400+i,200,170,20+100*sin(radians(a+i)));
+  render();
+}
+class Point{
+  float x,y;
+  Point(float x,float y){
+    this.x=x;
+    this.y=y;
+  }
+  Point(){
+    x=0;
+    y=0;
+  }
+  Point copy(){
+    return new Point(x,y);
+  }
+  float distance(Point p){
+    float dx=x-p.x;
+    float dy=y-p.y;
+    return sqrt(dx*dx+dy*dy);
+  }
+  void rotate(Point p, float a){
+    float dx=x-p.x;
+    float dy=y-p.y;
+    x=p.x+cos(a)*dx-sin(a)*dy;
+    y=p.y+sin(a)*dx+cos(a)*dy;
+  }
+}
+class Line {
+  Point p1,p2;
+  Line(Point p1,Point p2){
+    this.p1=p1;
+    this.p2=p2;
+  }
+  float length(){
+    return p1.distance(p2);
+  }
+  void rotate(Point p,float a){
+    p1.rotate(p,a);
+    p2.rotate(p,a);
+  }
+}
+class VisualLine extends Line{
+  float w;
+  color c;
+  VisualLine(Point p1, Point p2, float w, color c){
+    super(p1,p2);
+    this.w=w;
+    this.c=c;
+  }
+  VisualLine(Point p1, Point p2){
+    super(p1,p2);
+    this.w=1;
+    this.c=color(0);
+  }
+  void setWeight(float w){
+    this.w=w;
+  }
+  void setColor(color c){
+    this.c=c;
+  }
+  void display(){
+    stroke(c);
+    strokeWeight(w);
+    line(p1.x, p1.y, p2.x, p2.y);
+  }
+}
+float[] progression(int n, float q){
+  float[] result=new float[n];
+  result[0]=1;
+  for(int i=1; i<n; i++){
+    result[i]=result[i-1]*q;
+  }
+  return result;
+}
+void render(){
+  VisualLine[] lines=new VisualLine[10];
+  for(int i=0; i<lines.length; i++){
+    Point p1=new Point(random(width),random(height));
+    Point p2=new Point(random(width),random(height));
+    lines[i]=new VisualLine(p1, p2, 1, color(0,20));
+  }
+  Point center=new Point(width/2,height/2);
+  for(int time=0;time<1000; time++){
+    for(VisualLine line:lines){
+      line.rotate(center, 0.01);
+      line.display();
     }
-    
-  pushMatrix();
-  for(int i=0; i<200; i+=15){
-    ellipse(400+i,400,170,20+100*sin(radians(a+i)));
-    }
-    
-  popMatrix();
-  
-  //ellipse(330,200,k,k);
-  //ellipse(330,255,b,b);
-  //ellipse(330,310,b,b);
-  //ellipse(330,365,b,b);
-  //ellipse(330,420,b,b);
-  //ellipse(330,475,b,b);
-  //ellipse(330,530,b,b);
-  //ellipse(330,585,k,k);
-  
- pushMatrix();
-  for(int i=0; i<200; i+=11){
-    ellipse(307,303+i,0+80*sin(radians(a+i)),227+23*sin(radians(a+i)));
-    }
-  
-  popMatrix();
-  
-  pushMatrix();
-  for(int i=0; i<200; i+=15){
-    ellipse(400+i,601,170,20+100*sin(radians(a+i)));
-    }
-    
-  popMatrix();
-  
-  a+=1;
+  }
 }
